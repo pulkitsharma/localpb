@@ -15,6 +15,10 @@ import java.util.Arrays;
 @Script.Manifest(name = "Daily Run", description = "Daily Runs")
 public class DailyRun extends PollingScript<ClientContext> implements MessageListener {
     private int step = 0;
+    private Tile[] tile = null;
+    private TilePath tilePath = null;
+    private Npc npc = null;
+    
     @Override
     public void poll() {
         final State state = getState();
@@ -26,43 +30,21 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 teleport("portsarim");
                 
                 //go to location tile (3013,3221) not needed too close to teleport
+                traversePath(new int[][]{{3014,3223}});
+
                 //click on NPC gerrant
-                Npc gerrant = ctx.npcs.select().id(558).nearest().poll();
-                System.out.println(gerrant.name());
-                Tile[] tile = new Tile[]{new Tile(3014,3223)};
-                TilePath pat = new TilePath(ctx, tile);
-                pat.traverse();
-                sleep(3000);
-                //if inViewPort()
-                if(!gerrant.inViewport()) {
-                    ctx.movement.step(gerrant);
-                    ctx.camera.turnTo(gerrant);
-                }
-                sleep(5000);
-                gerrant.interact("trade");
-                sleep(3000);
-                System.out.println(Arrays.toString(gerrant.actions()));
+                interactNpc(558,"trade");
 
                 //select feathers on opened widget
                 if(!ctx.widgets.component(1265,20).component(7).visible()){ break; }
 
                 ctx.widgets.component(1265,20).component(7).click();
                 sleep(1000);
-
-                if(ctx.widgets.component(1265,73).valid())
-                    ctx.widgets.component(1265,73).click();
-                sleep(1000);
-                if(ctx.widgets.component(1265,81).valid())
-                    ctx.widgets.component(1265,81).click();
-                sleep(1000);
+                buyAll();
 
                 //Buy fire rune from Betty
-                Tile[] tilesToBetty = new Tile[]{new Tile(3019,3228), new Tile(3018,3244), new Tile(3019,3258)};
-                TilePath pathToBetty = new TilePath(ctx, tilesToBetty);
-                for(int i=0;i<3;i++){
-                    pathToBetty.traverse();
-                    sleep(10000);
-                }
+                traversePath(new int[][]{{3019,3228},{3018,3244},{3019,3258}});
+
                 System.out.println(ctx.camera.pitch()+","+ctx.camera.yaw());
                 GameObject bettyDoor = ctx.objects.select().id(40108).nearest().poll();
                 ctx.camera.angle(96);
@@ -72,34 +54,18 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 System.out.println(Arrays.toString(bettyDoor.actions()));
                 bettyDoor.interact("Open");
                 sleep(3000);
-                Npc betty = ctx.npcs.select().id(583).nearest().poll();
-                if(!betty.inViewport()) {
-                    ctx.movement.step(betty);
-                    ctx.camera.turnTo(betty);
-                }
-                betty.interact("trade");
-                sleep(5000);
+                
+                interactNpc(583,"trade");
 
                 //select fire rune on opened widget
                 ctx.widgets.component(1265,20).component(0).click();
                 sleep(1000);
+                buyAll();
 
-                if(ctx.widgets.component(1265,73).valid())
-                    ctx.widgets.component(1265,73).click();
-                sleep(1000);
-                if(ctx.widgets.component(1265,81).valid())
-                    ctx.widgets.component(1265,81).click();
-                sleep(1000);
                 //select air rune on opened widget
                 ctx.widgets.component(1265,20).component(2).click();
                 sleep(1000);
-
-                if(ctx.widgets.component(1265,73).valid())
-                    ctx.widgets.component(1265,73).click();
-                sleep(1000);
-                if(ctx.widgets.component(1265,81).valid())
-                    ctx.widgets.component(1265,81).click();
-                sleep(1000);
+                buyAll();
  
                 step++;
                 break;
@@ -120,27 +86,13 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 }
                 System.out.println("Reached Hank");
                 //click on NPC hank 
-                Npc hank = ctx.npcs.select().id(8864).nearest().poll();
-                System.out.println(hank.name());
-                //if inViewPort()
-                if(!hank.inViewport()) {
-                    ctx.movement.step(hank);
-                    ctx.camera.turnTo(hank);
-                }
-                hank.interact("trade");
-                sleep(5000);
-                System.out.println(Arrays.toString(hank.actions()));
+                interactNpc(8864,"trade");
 
                 //select feathers on opened widget
                 ctx.widgets.component(1265,20).component(5).click();
                 sleep(1000);
+                buyAll();
 
-                if(ctx.widgets.component(1265,73).valid())
-                    ctx.widgets.component(1265,73).click();
-                sleep(1000);
-                if(ctx.widgets.component(1265,81).valid())
-                    ctx.widgets.component(1265,81).click();
-                sleep(1000);
                 System.out.println("Money in pouch : "+ctx.backpack.moneyPouchCount());
                 step++;
                 break;
@@ -170,35 +122,18 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 System.out.println(Arrays.toString(door.actions()));
                 door.interact("Open");
                 sleep(3000);
-                Npc aubury = ctx.npcs.select().id(5913).nearest().poll();
-                if(!aubury.inViewport()) {
-                    ctx.movement.step(aubury);
-                    ctx.camera.turnTo(aubury);
-                }
-                aubury.interact("trade");
-                sleep(5000);
+                interactNpc(5913,"trade");
 
                 //select fire rune on opened widget
                 ctx.widgets.component(1265,20).component(0).click();
                 sleep(1000);
-
-                if(ctx.widgets.component(1265,73).valid())
-                    ctx.widgets.component(1265,73).click();
-                sleep(1000);
-                if(ctx.widgets.component(1265,81).valid())
-                    ctx.widgets.component(1265,81).click();
-                sleep(1000);
+                buyAll();
 
                 //select air rune on opened widget
                 ctx.widgets.component(1265,20).component(2).click();
                 sleep(1000);
+                buyAll();
 
-                if(ctx.widgets.component(1265,73).valid())
-                    ctx.widgets.component(1265,73).click();
-                sleep(1000);
-                if(ctx.widgets.component(1265,81).valid())
-                    ctx.widgets.component(1265,81).click();
-                sleep(1000);
                 step++;
                 break;
             case BURTHORPE:
@@ -218,36 +153,20 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                     pathToCarwen.traverse();
                     sleep(6500);
                 }
-                Npc carwen = ctx.npcs.select().id(14906).nearest().poll();
-                if(!carwen.inViewport()) {
-                    ctx.movement.step(carwen);
-                    ctx.camera.turnTo(carwen);
-                }
-                carwen.interact("trade");
-                sleep(5000);
-                System.out.println("Opened trade with Carwen");
+                interactNpc(14906,"trade");
+
                 //select fire rune on opened widget
                 ctx.widgets.component(1265,20).component(0).click();
                 sleep(1000);
 
-                if(ctx.widgets.component(1265,73).valid())
-                    ctx.widgets.component(1265,73).click();
-                sleep(1000);
-                if(ctx.widgets.component(1265,81).valid())
-                    ctx.widgets.component(1265,81).click();
-                sleep(1000);
+                buyAll();
                 System.out.println("Bought firerunes");
 
                 //select air rune on opened widget
                 ctx.widgets.component(1265,20).component(2).click();
                 sleep(1000);
 
-                if(ctx.widgets.component(1265,73).valid())
-                    ctx.widgets.component(1265,73).click();
-                sleep(1000);
-                if(ctx.widgets.component(1265,81).valid())
-                    ctx.widgets.component(1265,81).click();
-                sleep(1000);
+                buyAll();
                 System.out.println("Bought Air runes");
 
                 step = 0;
@@ -258,7 +177,7 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
         }
     }
 
-    public void teleport(String destination){
+    private void teleport(String destination){
         do{
             ctx.widgets.component(1477,72).component(1).click();
         }while(!ctx.widgets.component(1092,12).visible());
@@ -286,7 +205,47 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
         sleep(21000);
         System.out.println("Teleported to : "+destination);
     }
- 
+
+    private void interactNpc(int id, String action){
+        Npc npc = ctx.npcs.select().id(id).nearest().poll();
+        System.out.println(npc.name());
+        //if inViewPort()
+        if(!npc.inViewport()) {
+            ctx.movement.step(npc);
+            ctx.camera.turnTo(npc);
+        }
+        sleep(5000);
+        npc.interact(action);
+        sleep(3000);
+        System.out.println(Arrays.toString(npc.actions()));
+    }
+    
+    private void buyAll(){
+        if(ctx.widgets.component(1265,73).valid())
+            ctx.widgets.component(1265,73).click();
+        sleep(1000);
+        if(ctx.widgets.component(1265,81).valid())
+            ctx.widgets.component(1265,81).click();
+        sleep(1000);
+    }
+    
+    private void traversePath(int[][] tilesXY){
+        Tile[] tiles = new Tile[tilesXY.length];
+        
+    	for(int i=0;i<tilesXY[0].length;i++){
+    		tiles[i] = new Tile(tilesXY[0][i],tilesXY[1][i]);
+    	}
+        TilePath path = new TilePath(ctx, tiles);
+        for(int i=0;i<3;i++){
+            path.traverse();
+        	sleep(2000);
+            if(ctx.players.local().inMotion()){
+            	sleep(5000);
+            }
+        }
+        
+    }
+    
     private enum State {
         PORTSARIM,LUMBRIDGE,VARROCK,BURTHORPE 
     }
