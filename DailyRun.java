@@ -209,14 +209,14 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
         sleep(1000);
     }
     
-    private void traversePath(int[][] tilesXY){
+    private boolean traversePath(int[][] tilesXY){
         Tile[] tiles = new Tile[tilesXY.length];
         int i=0;
-    	for(;i<tilesXY[0].length;i++){
+    	for(;i<tilesXY.length;i++){
     		tiles[i] = new Tile(tilesXY[i][0],tilesXY[i][1]);
     	}
         TilePath path = new TilePath(ctx, tiles);
-        for(int i=0;i<3;i++){
+        for(i=0;i<tilesXY.length;i++){
             path.traverse();
         	sleep(2000);
             if(ctx.players.local().inMotion()){
