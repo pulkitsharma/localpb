@@ -74,16 +74,8 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 teleport("lumbridge");
 
                 //go to location tile (3013,3221) not needed too close to teleport
-                //(3225,3237),(3212,3249),(3196,3252),
-                Tile[] tilesToWalk = new Tile[]{new Tile(3225,3237), new Tile(3212,3249), new Tile(3196,3252)};
-                TilePath path = new TilePath(ctx, tilesToWalk);
-                for(int i=0;i<3;i++){
-                    path.traverse();
-                    sleep(10000);
-                }
-                if(ctx.players.local().tile().distanceTo(new Tile(3196,3254,0)) > 10){
-                   break;
-                }
+                traversePath(new int[][]{{3227,3233},{3219,3245},{3206,3248},{3195,3252}});
+
                 System.out.println("Reached Hank");
                 //click on NPC hank 
                 interactNpc(8864,"trade");
@@ -106,13 +98,8 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
 
                 //buy runes
                 //(3221,3391),(3232,3391),(3243,3401),(3250,3399)
-                Tile[] tilesToAubury = new Tile[]{new Tile(3221,3391),new Tile(3232,3391),new Tile(3243,3401),new Tile(3250,3399),new Tile(3253,3398)};
-                TilePath pathToAubury = new TilePath(ctx, tilesToAubury);
-                for(int i=0;i<5;i++){
-                    System.out.println("Traversing path");
-                    pathToAubury.traverse();
-                    sleep(6500);
-                }
+                traversePath(new int[][]{{3221,3391},{3232,3391},{3243,3401},{3250,3399}});
+
                 System.out.println(ctx.camera.pitch()+","+ctx.camera.yaw());
                 GameObject door = ctx.objects.select().id(24381).nearest().poll();
                 ctx.camera.angle(158);
@@ -145,14 +132,7 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                     break;
                 }
                 //buy runes
-                //(3221,3391),(3232,3391),(3243,3401),(3250,3399)
-                Tile[] tilesToCarwen = new Tile[]{new Tile(2913,3547),new Tile(2923,3552)};
-                TilePath pathToCarwen = new TilePath(ctx, tilesToCarwen);
-                for(int i=0;i<3;i++){
-                    System.out.println("Traversing path");
-                    pathToCarwen.traverse();
-                    sleep(6500);
-                }
+                traversePath(new int[][]{{2913,3547},{2923,3552}});
                 interactNpc(14906,"trade");
 
                 //select fire rune on opened widget
@@ -231,9 +211,9 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
     
     private void traversePath(int[][] tilesXY){
         Tile[] tiles = new Tile[tilesXY.length];
-        
-    	for(int i=0;i<tilesXY[0].length;i++){
-    		tiles[i] = new Tile(tilesXY[0][i],tilesXY[1][i]);
+        int i=0;
+    	for(;i<tilesXY[0].length;i++){
+    		tiles[i] = new Tile(tilesXY[i][0],tilesXY[i][1]);
     	}
         TilePath path = new TilePath(ctx, tiles);
         for(int i=0;i<3;i++){
@@ -243,7 +223,10 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
             	sleep(5000);
             }
         }
-        
+        if(ctx.players.local().tile().distanceTo(new Tile(tilesXY[i-1][0],tilesXY[i-1][1],0)) > 10){
+            return false;
+        }
+        return true;
     }
     
     private enum State {
