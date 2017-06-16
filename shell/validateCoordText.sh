@@ -1,5 +1,5 @@
 #!/bin/sh
-RS_HOME=/home/gaurav/runescape/powerbot/local
+RS_HOME=/home/gaurav/runescape/local
 #inspect for text in image area
 inputText=$1
 x_coord=$2

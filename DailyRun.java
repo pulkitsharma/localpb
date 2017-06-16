@@ -23,10 +23,7 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
         }
         switch (state) {
             case PORTSARIM:
-                ctx.widgets.component(1477,72).component(1).click();
-                sleep(1500);
-                ctx.widgets.component(1092,18).click();
-                sleep(21000);
+                teleport("portsarim");
                 
                 //go to location tile (3013,3221) not needed too close to teleport
                 //click on NPC gerrant
@@ -108,10 +105,7 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 break;
 
             case LUMBRIDGE:
-                ctx.widgets.component(1477,72).component(1).click();
-                sleep(1500);
-                ctx.widgets.component(1092,17).click();
-                sleep(21000);
+                teleport("lumbridge");
 
                 //go to location tile (3013,3221) not needed too close to teleport
                 //(3225,3237),(3212,3249),(3196,3252),
@@ -147,17 +141,15 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 if(ctx.widgets.component(1265,81).valid())
                     ctx.widgets.component(1265,81).click();
                 sleep(1000);
+                System.out.println("Money in pouch : "+ctx.backpack.moneyPouchCount());
                 step++;
                 break;
             case VARROCK:
-                ctx.widgets.component(1477,72).component(1).click();
-                sleep(1500);
-                ctx.widgets.component(1092,21).click();
-                sleep(21000);
+                teleport("varrock");
 
-                if(!ctx.players.local().tile().equals(new Tile(2899,3544,0))){
+                if(!ctx.players.local().tile().equals(new Tile(3214, 3376, 0))){
                     System.out.println(ctx.players.local().tile().toString());
-                    //break;
+                    break;
                 }
 
                 //buy runes
@@ -210,10 +202,8 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 step++;
                 break;
             case BURTHORPE:
-                ctx.widgets.component(1477,72).component(1).click();
-                sleep(1500);
-                ctx.widgets.component(1092,12).click();
-                sleep(21000);
+                teleport("burthorpe");
+
                 //(2899,3544)
                 if(!ctx.players.local().tile().equals(new Tile(2899,3544,0))){
                     System.out.println(ctx.players.local().tile().toString());
@@ -269,31 +259,32 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
     }
 
     public void teleport(String destination){
-        ctx.widgets.component(1477,72).component(1).click();
+        do{
+            ctx.widgets.component(1477,72).component(1).click();
+        }while(!ctx.widgets.component(1092,12).visible());
         sleep(1500);
+
         if("burthorpe".equalsIgnoreCase(destination)){
             ctx.widgets.component(1092,12).click();
         }else if("portsarim".equalsIgnoreCase(destination)){
             ctx.widgets.component(1092,18).click();
-        }else if("portsarim".equalsIgnoreCase(destination)){
-            ctx.widgets.component(1092,18).click();
         }else if("taverly".equalsIgnoreCase(destination)){
-            ctx.widgets.component(1092,18).click();
+            ctx.widgets.component(1092,20).click();
         }else if("varrock".equalsIgnoreCase(destination)){
-            ctx.widgets.component(1092,18).click();
+            ctx.widgets.component(1092,21).click();
         }else if("lumbridge".equalsIgnoreCase(destination)){
-            ctx.widgets.component(1092,18).click();
+            ctx.widgets.component(1092,17).click();
         }else if("draynor".equalsIgnoreCase(destination)){
-            ctx.widgets.component(1092,18).click();
+            ctx.widgets.component(1092,14).click();
         }else if("alkharid".equalsIgnoreCase(destination)){
-            ctx.widgets.component(1092,18).click();
+            ctx.widgets.component(1092,10).click();
         }else if("edgeville".equalsIgnoreCase(destination)){
-            ctx.widgets.component(1092,18).click();
+            ctx.widgets.component(1092,15).click();
         }else if("falador".equalsIgnoreCase(destination)){
-            ctx.widgets.component(1092,18).click();
+            ctx.widgets.component(1092,16).click();
         }
-
         sleep(21000);
+        System.out.println("Teleported to : "+destination);
     }
  
     private enum State {
