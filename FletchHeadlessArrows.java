@@ -77,7 +77,7 @@ public class FletchHeadlessArrows extends PollingScript<ClientContext> implement
 
                 Item arrow = ctx.backpack.select().id(arrowShaftId).poll();
                 if (arrow.interact("Feather")) {
-                    sleep(10000);
+                    sleep(2000);
                     if (!ctx.players.local().inMotion() && ctx.players.local().animation() == -1) {
                         ctx.widgets.component(1370,12).click();
                         sleep(10000);
