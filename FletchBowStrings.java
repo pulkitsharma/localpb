@@ -23,7 +23,7 @@ public class FletchBowStrings extends PollingScript<ClientContext> implements Me
     private int[] deadOakTreeId = {38734};
     private int arrowShaftId = 52;
     private int bowStringUnstrungId = 54;
-    GameObject tree=null;
+    Tile currentTreeTile=new Tile(0,0);
     private static final Random rand = new Random();
     @Override
     public void poll() {
@@ -45,10 +45,11 @@ public class FletchBowStrings extends PollingScript<ClientContext> implements Me
                     break;
                 }
                 GameObject deadOakTree = ctx.objects.select().id(deadOakTreeId).nearest().poll();
-                if(tree.tile().compareTo(deadOakTree.tile())==0){
+                if(currentTreeTile.compareTo(deadOakTree.tile())==0){
                 	break;
                 }
-                tree = ctx.objects.select().id(oakTreeId).nearest().poll();
+                GameObject tree = ctx.objects.select().id(oakTreeId).nearest().poll();
+                currentTreeTile = tree.tile();
                 if (tree.inViewport()) {
                     if (tree.interact("Chop down")) {
                         sleep(5000);
