@@ -16,7 +16,7 @@ import java.util.Arrays;
 @Script.Manifest(name = "Fletch willow", description = "Fletch willow")
 public class FletchWillowToArrowShaft extends PollingScript<ClientContext> implements MessageListener {
     private int step = 1;
-    private int willowLogId = 1511;
+    private int willowLogId = 1519;
     private int arrowShaftId = 52;
     private int featherId = 314;
     private static final Random rand = new Random();
