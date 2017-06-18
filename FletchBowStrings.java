@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 import java.util.List;
 import java.util.Arrays;
 
-@Script.Manifest(name = "Fletch Headless Arrows", description = "Fletch Headless Arrows")
+@Script.Manifest(name = "Fletch Bowstrings", description = "Fletch Bowstrings")
 public class FletchBowStrings extends PollingScript<ClientContext> implements MessageListener {
     private int step = 1;
     private int logId = 1511;
