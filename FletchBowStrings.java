@@ -46,6 +46,8 @@ public class FletchBowStrings extends PollingScript<ClientContext> implements Me
                 }
                 GameObject deadOakTree = ctx.objects.select().id(deadOakTreeId).nearest().poll();
                 if(currentTreeTile.compareTo(deadOakTree.tile())==0){
+                    GameObject tree = ctx.objects.select().id(oakTreeId).nearest().poll();
+                    currentTreeTile = tree.tile();
                 	break;
                 }
                 GameObject tree = ctx.objects.select().id(oakTreeId).nearest().poll();
