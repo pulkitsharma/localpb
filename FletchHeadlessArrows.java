@@ -68,8 +68,8 @@ public class FletchHeadlessArrows extends PollingScript<ClientContext> implement
                 step=3;
                 break;
             case FEATHER_ARROWS:
-                if(ctx.backpack.select().id(featherId).poll()!= null){
-                	step = 0;
+                if(ctx.backpack.select().id(featherId).poll()== null){
+                	step = 1;
                 	break;
                 }
 
