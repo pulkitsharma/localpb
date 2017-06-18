@@ -34,8 +34,11 @@ public class FletchHeadlessArrows extends PollingScript<ClientContext> implement
                 step=1;
                 break;
             case CUT_TREES: 
-                int[] treeIds = {38787, 38783, 38788, 38782, 38760, 38785, 45798, 47594,47596,47598,47600};
+                if(ctx.backpack.select().size()== 28){
+                    step=2;
+                }
 
+                int[] treeIds = {38787, 38783, 38788, 38782, 38760, 38785, 45798, 47594,47596,47598,47600};
                 GameObject Tree = ctx.objects.select().id(treeIds).nearest().poll();
                 if (Tree.inViewport()) {
                     if (Tree.interact("Chop down")) {
@@ -46,14 +49,11 @@ public class FletchHeadlessArrows extends PollingScript<ClientContext> implement
                     ctx.movement.step(Tree.tile());
                     sleep(5000);
                 }
-                if(ctx.backpack.select().size()== 28){
-                    step=2;
-                }
                 break;
             case MAKE_ARROWS:
                 Item log = ctx.backpack.select().id(logId).poll();
                 if (log.interact("Craft")) {
-                    sleep(1000);
+                    sleep(2000);
                     if(ctx.widgets.component(1179,36).component(1).visible()){
                         ctx.widgets.component(1179,36).component(1).click();
                     }
@@ -68,12 +68,12 @@ public class FletchHeadlessArrows extends PollingScript<ClientContext> implement
                 step=3;
                 break;
             case FEATHER_ARROWS:
-                if(ctx.backpack.select().id(featherId).poll()== null){
+                if(!ctx.backpack.select().id(featherId).poll().valid()){
                 	step = 1;
                 	break;
                 }
 
-                Item arrow = ctx.backpack.select().id(52).poll();
+                Item arrow = ctx.backpack.select().id(arrowShaftId).poll();
                 if (arrow.interact("Feather")) {
                     sleep(10000);
                     if (!ctx.players.local().inMotion() && ctx.players.local().animation() == -1) {
@@ -81,7 +81,7 @@ public class FletchHeadlessArrows extends PollingScript<ClientContext> implement
                         sleep(10000);
                     }
                 }
-                if(!ctx.backpack.select().id(52).poll().valid()){
+                if(!ctx.backpack.select().id(arrowShaftId).poll().valid()){
                     step=1;
                 }
                 break;
