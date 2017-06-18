@@ -55,12 +55,12 @@ public class SpinFlaxToBowstring extends PollingScript<ClientContext> implements
                 GameObject flax = ctx.objects.select().id(growingFlaxIds).nearest().poll();
                 if (flax.inViewport()) {
                     if (flax.interact("Pick")) {
-                        sleep(5000);
+                        sleep(2000);
                     }
                 } else {
                     ctx.camera.turnTo(flax.tile());
                     ctx.movement.step(flax.tile());
-                    sleep(5000);
+                    sleep(2000);
                 }
                 break;
             case SPIN_FLAX:
@@ -70,7 +70,7 @@ public class SpinFlaxToBowstring extends PollingScript<ClientContext> implements
             	sleep(6000);
                 GameObject spinningWheelObject = ctx.objects.select().id(spinningWheel).nearest().poll();
                 if (spinningWheelObject.interact("Spin")) {
-                    sleep(2500);
+                	sleep(2500);
                     ctx.widgets.component(1371,44).component(5).click();
                     sleep(2000);
                     ctx.widgets.component(1370,20).click();
