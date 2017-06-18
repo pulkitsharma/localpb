@@ -17,6 +17,8 @@ import java.util.Arrays;
 public class FletchHeadlessArrows extends PollingScript<ClientContext> implements MessageListener {
     private int step = 0;
     private int logId = 1511;
+    private int arrowShaftId = 1511;
+    private int featherId = 1511;
     @Override
     public void poll() {
         final State state = getState();
@@ -66,6 +68,11 @@ public class FletchHeadlessArrows extends PollingScript<ClientContext> implement
                 step=3;
                 break;
             case FEATHER_ARROWS:
+                if(ctx.backpack.select().id(featherId).poll()!= null){
+                	step = 0;
+                	break;
+                }
+
                 Item arrow = ctx.backpack.select().id(52).poll();
                 if (arrow.interact("Feather")) {
                     sleep(10000);
