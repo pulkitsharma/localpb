@@ -15,8 +15,11 @@ import java.util.Arrays;
 
 @Script.Manifest(name = "Fletch Headless Arrows", description = "Fletch Headless Arrows")
 public class FletchHeadlessArrows extends PollingScript<ClientContext> implements MessageListener {
-    private int step = 0;
+    private int step = 1;
     private int logId = 1511;
+    private int[] treeIds = {38787, 38783, 38788, 38782, 38760, 38785, 45798, 47594,47596,47598,47600};
+    private int oakLogId = 1521;
+    private int[] oakTreeId = {38732};
     private int arrowShaftId = 52;
     private int featherId = 314;
     @Override
@@ -38,8 +41,7 @@ public class FletchHeadlessArrows extends PollingScript<ClientContext> implement
                     step=2;
                 }
 
-                int[] treeIds = {38787, 38783, 38788, 38782, 38760, 38785, 45798, 47594,47596,47598,47600};
-                GameObject Tree = ctx.objects.select().id(treeIds).nearest().poll();
+                GameObject Tree = ctx.objects.select().id(oakTreeId).nearest().poll();
                 if (Tree.inViewport()) {
                     if (Tree.interact("Chop down")) {
                         sleep(5000);
@@ -51,7 +53,7 @@ public class FletchHeadlessArrows extends PollingScript<ClientContext> implement
                 }
                 break;
             case MAKE_ARROWS:
-                Item log = ctx.backpack.select().id(logId).poll();
+                Item log = ctx.backpack.select().id(logId,oakLogId).poll();
                 if (log.interact("Craft")) {
                     sleep(2000);
                     if(ctx.widgets.component(1179,36).component(1).visible()){
