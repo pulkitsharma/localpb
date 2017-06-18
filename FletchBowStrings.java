@@ -41,6 +41,7 @@ public class FletchBowStrings extends PollingScript<ClientContext> implements Me
             case CUT_TREES: 
                 if(ctx.backpack.select().size()== 28){
                     step=2;
+                    break;
                 }
 
                 GameObject tree = ctx.objects.select().id(oakTreeId).nearest().poll();
@@ -78,24 +79,23 @@ public class FletchBowStrings extends PollingScript<ClientContext> implements Me
 					ctx.bank.open();
 					sleep(3000);
 				}
-            	else{
-					if(rand.nextInt(100) < 95){
-						ctx.bank.depositInventory();
+				if(rand.nextInt(100) < 95){
+					ctx.bank.depositInventory();
+					Condition.sleep(rand.nextInt(1000) + 300);
+					if(rand.nextInt(100) > 95){
+						ctx.bank.close();
 						Condition.sleep(rand.nextInt(1000) + 300);
-						if(rand.nextInt(100) > 95){
-							ctx.bank.close();
-							Condition.sleep(rand.nextInt(1000) + 300);
-						}
-					}
-					else{
-						ctx.bank.deposit(bowStringUnstrungId, 28);
-						Condition.sleep(rand.nextInt(1000) + 300);
-						if(rand.nextInt(100) > 85){
-							ctx.bank.close();
-							Condition.sleep(rand.nextInt(1000) + 300);
-						}
 					}
 				}
+				else{
+					ctx.bank.deposit(bowStringUnstrungId, 28);
+					Condition.sleep(rand.nextInt(1000) + 300);
+					if(rand.nextInt(100) > 85){
+						ctx.bank.close();
+						Condition.sleep(rand.nextInt(1000) + 300);
+					}
+				}
+                step=1;
                 break;
             default:
                 break;
