@@ -38,13 +38,13 @@ public class SpinFlaxToBowstring extends PollingScript<ClientContext> implements
                 break;
             case REACH_FLAX_FIELD:
             	ctx.movement.step(new Tile(2890,3518));
-            	sleep(5000);
+            	sleep(6000);
             	ctx.movement.step(new Tile(2891,3504));
-            	sleep(5000);
+            	sleep(6000);
             	ctx.movement.step(new Tile(2891,3488));
-            	sleep(5000);
+            	sleep(6000);
             	ctx.movement.step(new Tile(2888,3472));
-            	sleep(5000);
+            	sleep(6000);
             	step=2;
             	break;
             case PICK_FLAX: 
@@ -65,24 +65,26 @@ public class SpinFlaxToBowstring extends PollingScript<ClientContext> implements
                 break;
             case SPIN_FLAX:
             	ctx.movement.step(new Tile(2888,3475));
-            	sleep(5000);
+            	sleep(6000);
             	ctx.movement.step(new Tile(2891,3488));
-            	sleep(5000);
+            	sleep(6000);
                 GameObject spinningWheelObject = ctx.objects.select().id(spinningWheel).nearest().poll();
                 if (spinningWheelObject.interact("Spin")) {
                     sleep(2500);
                     ctx.widgets.component(1371,44).component(5).click();
                     sleep(2000);
                     ctx.widgets.component(1370,20).click();
-                    sleep(30000);
+                    sleep(40000);
                 }
                 step=4;
                 break;
             case BANK_BURTHORPE:
-            	ctx.movement.step(new Tile(2889,3513));
-            	sleep(5000);
-            	ctx.movement.step(new Tile(2889,3528));
-            	sleep(5000);
+            	ctx.movement.step(new Tile(2890,3509));
+            	sleep(6000);
+            	ctx.movement.step(new Tile(2889,3524));
+            	sleep(6000);
+            	ctx.movement.step(new Tile(2888,3535));
+            	sleep(6000);
             	if(!ctx.bank.opened()){
 					ctx.bank.open();
 					sleep(3000);
