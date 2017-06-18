@@ -17,8 +17,8 @@ import java.util.Arrays;
 public class FletchHeadlessArrows extends PollingScript<ClientContext> implements MessageListener {
     private int step = 0;
     private int logId = 1511;
-    private int arrowShaftId = 1511;
-    private int featherId = 1511;
+    private int arrowShaftId = 52;
+    private int featherId = 314;
     @Override
     public void poll() {
         final State state = getState();
