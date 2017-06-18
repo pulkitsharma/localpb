@@ -74,7 +74,7 @@ public class SpinFlaxToBowstring extends PollingScript<ClientContext> implements
                     ctx.widgets.component(1371,44).component(5).click();
                     sleep(2000);
                     ctx.widgets.component(1370,20).click();
-                    sleep(40000);
+                    sleep(54000);
                 }
                 step=4;
                 break;
