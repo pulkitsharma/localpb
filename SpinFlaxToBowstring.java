@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 import java.util.List;
 import java.util.Arrays;
 
-@Script.Manifest(name = "Fletch Bowstrings", description = "Fletch Bowstrings")
+@Script.Manifest(name = "Flax Bowstrings", description = "Flax Bowstrings")
 public class SpinFlaxToBowstring extends PollingScript<ClientContext> implements MessageListener {
     private int step = 1;
     private int cutFlaxId = 1779;
