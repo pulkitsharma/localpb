@@ -23,6 +23,7 @@ public class FletchBowStrings extends PollingScript<ClientContext> implements Me
     private int[] deadOakTreeId = {38734};
     private int arrowShaftId = 52;
     private int bowStringUnstrungId = 54;
+    GameObject tree=null;
     private static final Random rand = new Random();
     @Override
     public void poll() {
@@ -43,8 +44,11 @@ public class FletchBowStrings extends PollingScript<ClientContext> implements Me
                     step=2;
                     break;
                 }
-
-                GameObject tree = ctx.objects.select().id(oakTreeId).nearest().poll();
+                GameObject deadOakTree = ctx.objects.select().id(deadOakTreeId).nearest().poll();
+                if(tree.tile().compareTo(deadOakTree.tile())==0){
+                	break;
+                }
+                tree = ctx.objects.select().id(oakTreeId).nearest().poll();
                 if (tree.inViewport()) {
                     if (tree.interact("Chop down")) {
                         sleep(5000);
@@ -82,19 +86,12 @@ public class FletchBowStrings extends PollingScript<ClientContext> implements Me
 				if(rand.nextInt(100) < 95){
 					ctx.bank.depositInventory();
 					Condition.sleep(rand.nextInt(1000) + 300);
-					if(rand.nextInt(100) > 95){
-						ctx.bank.close();
-						Condition.sleep(rand.nextInt(1000) + 300);
-					}
 				}
 				else{
 					ctx.bank.deposit(bowStringUnstrungId, 28);
 					Condition.sleep(rand.nextInt(1000) + 300);
-					if(rand.nextInt(100) > 85){
-						ctx.bank.close();
-						Condition.sleep(rand.nextInt(1000) + 300);
-					}
 				}
+				ctx.bank.close();
                 step=1;
                 break;
             default:
