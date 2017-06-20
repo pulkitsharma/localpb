@@ -28,7 +28,12 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
         switch (state) {
             case PORTSARIM:
                 teleport("portsarim");
-                
+               
+                if(!ctx.players.local().tile().equals(new Tile(3011, 3215, 0))){
+                    System.out.println(ctx.players.local().tile().toString());
+                    break;
+                }
+
                 //go to location tile (3013,3221) not needed too close to teleport
                 traversePath(new int[][]{{3014,3223}});
 
@@ -38,12 +43,12 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 //select feathers on opened widget
                 if(!ctx.widgets.component(1265,20).component(7).visible()){ break; }
 
-                ctx.widgets.component(1265,20).component(7).click();
+                ctx.widgets.component(1265,20).component(7).interact("Buy All");
                 sleep(1000);
-                buyAll();
+                //buyAll();
 
                 //Buy fire rune from Betty
-                traversePath(new int[][]{{3019,3228},{3018,3244},{3019,3258}});
+                traversePath(new int[][]{{3020,3226},{3019,3228},{3018,3244},{3019,3258}});
 
                 System.out.println(ctx.camera.pitch()+","+ctx.camera.yaw());
                 GameObject bettyDoor = ctx.objects.select().id(40108).nearest().poll();
@@ -58,20 +63,26 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 interactNpc(583,"trade");
 
                 //select fire rune on opened widget
-                ctx.widgets.component(1265,20).component(0).click();
+                ctx.widgets.component(1265,20).component(0).interact("Buy All");
                 sleep(1000);
-                buyAll();
+                //buyAll();
 
                 //select air rune on opened widget
-                ctx.widgets.component(1265,20).component(2).click();
+                ctx.widgets.component(1265,20).component(2).interact("Buy All");
                 sleep(1000);
-                buyAll();
+                //buyAll();
  
                 step++;
                 break;
 
             case LUMBRIDGE:
                 teleport("lumbridge");
+
+                if(!ctx.players.local().tile().equals(new Tile(3233, 3221, 0))){
+                    System.out.println(ctx.players.local().tile().toString());
+                    break;
+                }
+
 
                 //go to location tile (3013,3221) not needed too close to teleport
                 traversePath(new int[][]{{3227,3233},{3219,3245},{3206,3248},{3195,3252}});
@@ -81,9 +92,9 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 interactNpc(8864,"trade");
 
                 //select feathers on opened widget
-                ctx.widgets.component(1265,20).component(5).click();
+                ctx.widgets.component(1265,20).component(5).interact("Buy All");
                 sleep(1000);
-                buyAll();
+                //buyAll();
 
                 System.out.println("Money in pouch : "+ctx.backpack.moneyPouchCount());
                 step++;
@@ -117,9 +128,9 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 buyAll();
 
                 //select air rune on opened widget
-                ctx.widgets.component(1265,20).component(2).click();
+                ctx.widgets.component(1265,20).component(2).interact("Buy All");
                 sleep(1000);
-                buyAll();
+                //buyAll();
 
                 step++;
                 break;
@@ -136,17 +147,17 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
                 interactNpc(14906,"trade");
 
                 //select fire rune on opened widget
-                ctx.widgets.component(1265,20).component(0).click();
+                ctx.widgets.component(1265,20).component(0).interact("Buy All");
                 sleep(1000);
 
-                buyAll();
+                //buyAll();
                 System.out.println("Bought firerunes");
 
                 //select air rune on opened widget
-                ctx.widgets.component(1265,20).component(2).click();
+                ctx.widgets.component(1265,20).component(2).interact("Buy All");
                 sleep(1000);
 
-                buyAll();
+                //buyAll();
                 System.out.println("Bought Air runes");
 
                 step = 0;
@@ -218,9 +229,9 @@ public class DailyRun extends PollingScript<ClientContext> implements MessageLis
         TilePath path = new TilePath(ctx, tiles);
         for(i=0;i<tilesXY.length;i++){
             path.traverse();
-        	sleep(2000);
-            if(ctx.players.local().inMotion()){
-            	sleep(5000);
+            sleep(2000);
+            while(ctx.players.local().inMotion()){
+            	sleep(2000);
             }
         }
         if(ctx.players.local().tile().distanceTo(new Tile(tilesXY[i-1][0],tilesXY[i-1][1],0)) > 10){

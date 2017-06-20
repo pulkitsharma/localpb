@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 @Script.Manifest(name = "Fletch Headless Arrows", description = "Fletch Headless Arrows")
 public class FletchHeadlessArrows extends PollingScript<ClientContext> implements MessageListener {
-    private int step = 1;
+    private int step = 3;
     private int logId = 1511;
     private int[] treeIds = {38787, 38783, 38788, 38782, 38760, 38785, 45798, 47594,47596,47598,47600};
     private int oakLogId = 1521;
@@ -77,7 +77,7 @@ public class FletchHeadlessArrows extends PollingScript<ClientContext> implement
 
                 Item arrow = ctx.backpack.select().id(arrowShaftId).poll();
                 if (arrow.interact("Feather")) {
-                    sleep(10000);
+                    sleep(2000);
                     if (!ctx.players.local().inMotion() && ctx.players.local().animation() == -1) {
                         ctx.widgets.component(1370,12).click();
                         sleep(10000);
